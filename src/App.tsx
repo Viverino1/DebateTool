@@ -1,7 +1,9 @@
+import Navbar from "./components/Navbar";
+
 export default function App() {
   return (
-    <div className="flex justify-center items-center overflow-auto w-full h-screen">
-      
+    <div className="fixed w-full h-screen bg-neutral-900">
+        <Navbar/>
     </div>
   )
 }
