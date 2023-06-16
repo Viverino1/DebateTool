@@ -5,10 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    animationDelay: {
+        10000: "10000ms",
+        20000: "20000ms",
+        30000: "30000ms",
+    },
     extend: {
       keyframes: {
         bg: {
-          '0%, 100%': { transform: 'translate(0vh)' },
+          '0%, 100%': { transform: 'translate(0vh)',},
           '50%': { transform: 'translate(-50vh, 50vh)' },
         }
       },
@@ -17,6 +22,8 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 }
 
