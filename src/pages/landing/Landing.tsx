@@ -1,7 +1,7 @@
-export default function Home(){
+export default function Landing(){
   return(
     <div className="w-full h-full p-4">
-      cards here
+      Home Page Here
     </div>
   )
 }
