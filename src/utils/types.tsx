@@ -1,4 +1,5 @@
-type Evidence = {
+type Card = {
+  type: string,
   cardID: string,
   ownwerUID: string,
   teamID: string,
@@ -7,12 +8,22 @@ type Evidence = {
   createTime: number,
   lastEditTime: number,
   title: string,
-  text: string,
-  reasoning: string,
   sourceName: string,
   sourceLink: string,
+  reasoning: string,
+}
+
+type Evidence = Card & {
+  text: string,
   contention: number,
   subpoint: number,
+}
+
+type Quote = Card & {
+  quote: string,
+  quotee: string,
+  contention: string,
+  subpoint: string,
 }
 
 type Contention = {
@@ -39,6 +50,7 @@ type School = {
 
 type StaticData = {
   schools: School[],
+  topics: string[]
 }
 
 export type {
@@ -47,4 +59,6 @@ export type {
   Evidence,
   Contention,
   User,
+  Card,
+  Quote,
 };

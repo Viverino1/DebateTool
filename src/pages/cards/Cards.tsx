@@ -1,7 +1,22 @@
 import { Search } from "react-bootstrap-icons";
 import EvidenceCard from "../../components/cards/EvidenceCard";
+import { useEffect, useState } from "react";
+import { getCardIDs } from "../../utils/firebase/firestore/firestore";
+import { useAppSelector } from "../../utils/redux/hooks";
 
 export default function Cards(){
+  const user = useAppSelector((state) => state.auth.user);
+  const {side, topic} = useAppSelector((state) => state.app);
+
+  const [evidenceIDs, setEvidenceIDs] = useState<string[]>([]);
+
+  useEffect(() => {
+    getCardIDs(user.school, topic, side)
+    .then((ids) => {
+      setEvidenceIDs(ids.evidences);
+    })
+  })
+
   const ids = [];
   for (let i = 1; i <= 12; i++) {
     ids[i] = i;
@@ -17,7 +32,7 @@ export default function Cards(){
         </div>
       </div>
       <div className="flex flex-wrap p-2 pt-22 w-full h-full overflow-auto">
-        {ids.map((id) => (
+        {evidenceIDs.map((id) => (
           <div key={id} className="w-1/3 h-1/2">
             <EvidenceCard ID={String(id) }/>
           </div>

@@ -11,6 +11,9 @@ import { setUser } from "./utils/redux/reducers/auth";
 import { useState } from "react";
 import Login from "./pages/login/Login";
 import CreateAccount from "./pages/login/CreateAccount";
+import store from "./utils/redux/store";
+import { setSide, setTopic } from "./utils/redux/reducers/app";
+import { getTopics } from "./utils/firebase/firestore/firestore";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -18,17 +21,31 @@ export default function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 
-  const [newUser, setNewUser] = useState(false);
+  const [isNewUser, setIsNewUser] = useState(false);
+
+  async function initialLoad(){
+    const topics = await getTopics();
+
+    store.dispatch(setTopic(topics[topics.length - 1]));
+    store.dispatch(setSide("AFF"));
+
+    return;
+
+  }
 
   auth.onAuthStateChanged((fbu) => {
     if(fbu){
       getUser(fbu.uid).then((user) => {
-        setLoading(false);
         if(user.uid){
           dispatch(setUser(user));
         }else{
-          setNewUser(true);
+          setIsNewUser(true);
         }
+
+        initialLoad().then(() => {
+          setLoading(false);
+        })
+
       })
     }else{
       setLoading(false);
@@ -37,7 +54,7 @@ export default function App() {
 
   if(loading){return <div>Loading</div>}
 
-  if(newUser){return <CreateAccount/>}
+  if(isNewUser){return <CreateAccount/>}
 
   if(!isLoggedIn){return <Login/>}
 

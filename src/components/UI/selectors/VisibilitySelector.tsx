@@ -1,21 +1,29 @@
+import { useState } from "react";
 import { getValue } from "../../../utils/helpers";
 
 export default function VisibilitySelector(props: {callback: (value: string) => void, value: string}){
   const {callback, value} = props;
 
-  const options = ["public", "school", "team", "private"];
+  const [visibility, setVisibility] = useState("private");
+
+  const options = ["public", "private"];
   return(
-    <select 
-    className="w-full h-12 rounded-xl bg-neutral-800 py-2 px-4 appearance-none outline-none" 
-    id="visibilitySelector"
-    value={value}
-    onChange={() => {
-      callback(getValue("visibilitySelector", ""));
-    }}
-    >
-      {options.map((option) => (
-        <option key={option} value={option}>{option}</option>
-      ))}
-    </select>
+    <div className="flex space-x-4 h-fit w-fit">
+      <button
+      className={`w-fit h-fit rounded-xl px-4 py-2 transition-all duration-300 border-2 hover:border-red-500 ${visibility == "public"? "bg-red-500 border-red-500" : "bg-neutral-800 border-neutral-800"}`}
+      onClick={() => {
+        setVisibility("public");
+        callback("public");
+      }}
+      >public</button>
+
+      <button
+      className={`w-fit h-fit rounded-xl px-4 py-2 transition-all duration-300 border-2 hover:border-red-500 ${visibility == "private"? "bg-red-500 border-red-500" : "bg-neutral-800 border-neutral-800"}`}
+      onClick={() => {
+        setVisibility("private");
+        callback("private");
+      }}
+      >private</button>
+    </div>
   )
 }

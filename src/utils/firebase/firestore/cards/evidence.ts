@@ -1,11 +1,13 @@
+import { arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { Evidence } from "../../../types";
+import db from "../firestore";
 
 function getEvidenceCard(ID: string){
   return {
     cardID: ID,
     ownwerUID: "userID",
     teamID: "teamID",
-    visibility: "school",
+    visibility: "public",
     createTime: 23250,
     lastEditTime: 90210,
     title: "This is the title.",
@@ -18,6 +20,26 @@ function getEvidenceCard(ID: string){
   } as Evidence
 }
 
+async function saveEvidenceCard(card: Evidence, topic:string, side: string){
+  const docRef = doc(db, "schools", card.school);
+
+  if(!card.cardID){
+    const cardRef = doc(collection(db, "cards", topic, side));
+    card.cardID = cardRef.id;
+    await setDoc(cardRef, card);
+
+    await updateDoc(docRef, {
+      [`cards.${topic}.${side}.evidences`]: arrayUnion(card.cardID),
+    })
+
+  }else{
+    await setDoc(doc(db, topic, side, card.cardID), card, {merge: true});
+  }
+
+  return;
+}
+
 export {
   getEvidenceCard,
+  saveEvidenceCard,
 }

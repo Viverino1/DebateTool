@@ -15,6 +15,7 @@ function EvidenceExample(){
   const navigate = useNavigate();
 
   const data = {
+    type: "evidence",
     cardID: "ExampleEvidence",
     ownwerUID: "uid",
     visibility: "public",

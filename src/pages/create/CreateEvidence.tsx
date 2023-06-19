@@ -7,7 +7,9 @@ import { emptyEvidence } from "../../utils/helpers";
 import TextArea from "../../components/UI/textInput/TextArea";
 import ContentionSubpointSelector from "../../components/UI/selectors/ContentionSubpointSelector";
 import VisibilitySelector from "../../components/UI/selectors/VisibilitySelector";
-import { Evidence } from "../../utils/types";
+import { Evidence, User } from "../../utils/types";
+import store from "../../utils/redux/store";
+import { saveEvidenceCard } from "../../utils/firebase/firestore/cards/evidence";
 
 export default function CreateEvidence(){
   const [data, setData] = useState(emptyEvidence);
@@ -72,7 +74,7 @@ export default function CreateEvidence(){
           <div>Visibility:</div>
           <VisibilitySelector
           callback={(value) => {
-            setData({...data, ...{visibility: value}});
+            setData({...data, visibility: value});
           }}
           value={visibility}
           />
@@ -86,8 +88,18 @@ export default function CreateEvidence(){
 }
 
 function handleCardSave(data: Evidence){
+  const state = store.getState();
+  const user = state.auth.user;
+  const {topic, side} = state.app;
+
+
   let time = new Date().getTime();
   data.createTime = time;
   data.lastEditTime = time;
-  console.log(data);
+  data.ownwerUID = user.uid;
+  data.school = user.school;
+  data.teamID = user.teamID;
+  console.log(topic, side);
+
+  saveEvidenceCard(data, topic, side);
 }

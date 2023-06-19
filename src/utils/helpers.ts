@@ -1,4 +1,4 @@
-import { Evidence } from "./types";
+import { Card, Evidence } from "./types";
 
 function getValue(id: string, fallback: string){
   const inputElement = document.getElementById(id) as HTMLInputElement | null;
@@ -12,18 +12,25 @@ function getRadioValue(id: string){
   return value? value : false;
 }
 
-const emptyEvidence: Evidence = {
+const emptyCard: Card = {
+  type: "",
   cardID: "",
   ownwerUID: "",
   teamID: "",
+  school: "",
   visibility: "private",
   createTime: 0,
   lastEditTime: 0,
   title: "",
-  text: "",
-  reasoning: "",
   sourceName: "",
   sourceLink: "",
+  reasoning: "",
+}
+
+const emptyEvidence: Evidence = {
+  ...emptyCard,
+  text: "",
+  type: "evidence",
   contention: -3,
   subpoint: -3,
   school: "",
