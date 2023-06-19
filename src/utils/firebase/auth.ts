@@ -20,7 +20,6 @@ async function handleSignOutClick(){
 const usersCol = createCollection<User>('users');
 
 async function getUser(ID: string){
-  console.log(ID);
   const user = (await getDoc(doc(usersCol, ID))).data();
   return user? user : {} as User;
 }

@@ -24,7 +24,7 @@ export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
     subpoint,
   } = displayData;
 
-  console.log(cardID, ownwerUID, teamID, school, createTime, lastEditTime, reasoning);
+  //console.log(cardID, ownwerUID, teamID, school, createTime, lastEditTime, reasoning);
 
   const contentionSubpoint = contsub(contention, subpoint);
 
