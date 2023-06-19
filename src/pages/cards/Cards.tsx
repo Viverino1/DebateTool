@@ -9,7 +9,7 @@ export default function Cards(){
 
   return(
     <div className="relative flex flex-col w-full h-full">
-      <div className="absolute top-4 z-20 right-4 left-4">
+      <div className="absolute top-4 z-20 right-8 left-4">
         <div className="text-center w-full h-16 px-4 rounded-xl flex space-x-4 items-center
         backdrop-blur-sm border-2 border-neutral-700 bg-neutral-800/50">
           <Search size={30}/>

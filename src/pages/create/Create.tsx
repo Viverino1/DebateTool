@@ -17,11 +17,10 @@ function EvidenceExample(){
   const data = {
     cardID: "ExampleEvidence",
     ownwerUID: "uid",
-    isPublic: true,
+    visibility: "public",
     title: "This is where you add a title.",
     contention: 1,
     subpoint: 3,
-
   } as Evidence;
   return(
     <div className="flex w-full h-1/2">

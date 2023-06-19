@@ -11,7 +11,8 @@ export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
     cardID,
     ownwerUID,
     teamID,
-    isPublic,
+    school,
+    visibility,
     createTime,
     lastEditTime,
     title,
@@ -22,6 +23,8 @@ export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
     contention,
     subpoint,
   } = displayData;
+
+  console.log(cardID, ownwerUID, teamID, school, createTime, lastEditTime, reasoning);
 
   const contentionSubpoint = contsub(contention, subpoint);
 
@@ -36,10 +39,10 @@ export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
           <div className="h-fit">
             <div className="flex space-x-4 items-center justify-between h-8 over">
               
-              <div className="flex space-x-4 text-sm w-full overflow-auto">
+              <div className="flex space-x-4 text-sm w-full">
                 <div className="w-fit h-fit bg-indigo-500 rounded-full px-2 py-1">Evidence</div>
                 <div className="relative group flex justify-center">
-                  <div className="w-fit h-fit bg-neutral-500 rounded-full px-2 py-1">{isPublic? "Public" : teamID? "Team" : "Private"}</div>
+                  <div className="w-fit h-fit bg-neutral-500 rounded-full px-2 py-1">{visibility}</div>
                   <Tooltip text="Anyone can view this card."/>
                 </div>
                 <div className={`${contentionSubpoint == "NAN"? "hidden" : "flex"} relative group justify-center`}>
@@ -65,11 +68,5 @@ export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
         </div>
       </div>
     </div>
-  )
-}
-
-function Loading(){
-  return(
-    <div>Loading</div>
   )
 }

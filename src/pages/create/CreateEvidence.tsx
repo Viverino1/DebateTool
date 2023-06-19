@@ -5,7 +5,7 @@ import TextInputMedium from "../../components/UI/textInput/TextInputMedium";
 import EvidenceCard from "../../components/cards/EvidenceCard";
 import { emptyEvidence } from "../../utils/helpers";
 import TextArea from "../../components/UI/textInput/TextArea";
-import ContentionSubpointSelector from "../../components/UI/dropdowns/ContentionSubpointSelector";
+import ContentionSubpointSelector from "../../components/UI/selectors/ContentionSubpointSelector";
 
 export default function CreateEvidence(){
   const [data, setData] = useState(emptyEvidence);
@@ -13,7 +13,7 @@ export default function CreateEvidence(){
     cardID,
     ownwerUID,
     teamID,
-    isPublic,
+    visibility,
     createTime,
     lastEditTime,
     title,
@@ -24,6 +24,7 @@ export default function CreateEvidence(){
     contention,
     subpoint,
   } = data;
+  console.log(cardID, ownwerUID, teamID, visibility, createTime, lastEditTime, contention, subpoint);
   return(
     <div className="flex w-full h-full p-4">
       <div className="flex flex-col space-y-4 w-2/3 h-full">

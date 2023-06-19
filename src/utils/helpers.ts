@@ -16,7 +16,7 @@ const emptyEvidence: Evidence = {
   cardID: "",
   ownwerUID: "",
   teamID: "",
-  isPublic: false,
+  visibility: "private",
   createTime: 0,
   lastEditTime: 0,
   title: "",
@@ -26,6 +26,7 @@ const emptyEvidence: Evidence = {
   sourceLink: "",
   contention: -3,
   subpoint: -3,
+  school: "",
 }
 
 function contsub(c: number, s: number){

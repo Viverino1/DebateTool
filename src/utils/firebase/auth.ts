@@ -1,7 +1,7 @@
-import { CollectionReference, DocumentData, collection, doc, getDoc } from "firebase/firestore";
+import {doc, getDoc, setDoc } from "firebase/firestore";
 import app from "./config";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import db from "./firestore/firestore";
+import { createCollection } from "./firestore/firestore";
 import { User } from "../types";
 
 const auth = getAuth(app);
@@ -17,15 +17,22 @@ async function handleSignOutClick(){
   return auth.signOut();
 }
 
-const createCollection = <T = DocumentData>(collectionName: string) => {
-  return collection(db, collectionName) as CollectionReference<T>
-}
-
 const usersCol = createCollection<User>('users');
 
 async function getUser(ID: string){
+  console.log(ID);
   const user = (await getDoc(doc(usersCol, ID))).data();
   return user? user : {} as User;
+}
+
+async function createUser(user: User){
+  await setDoc(doc(usersCol, user.uid), user);
+
+  return;
+}
+
+async function editUser(user: User){
+  await setDoc(doc(usersCol, user.uid), user, {merge: true});
 }
 
 export {
@@ -33,4 +40,6 @@ export {
   handleSignOutClick,
   auth,
   getUser,
+  createUser,
+  editUser,
 }

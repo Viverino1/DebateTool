@@ -5,7 +5,7 @@ function getEvidenceCard(ID: string){
     cardID: ID,
     ownwerUID: "userID",
     teamID: "teamID",
-    isPublic: true,
+    visibility: "school",
     createTime: 23250,
     lastEditTime: 90210,
     title: "This is the title.",

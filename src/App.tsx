@@ -5,22 +5,41 @@ import Create from "./pages/create/Create";
 import Landing from "./pages/landing/Landing";
 import CreateEvidence from "./pages/create/CreateEvidence";
 import { useAppSelector } from "./utils/redux/hooks";
-import { auth, getUser, handleAuthClick } from "./utils/firebase/auth";
+import { auth, getUser } from "./utils/firebase/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "./utils/redux/reducers/auth";
+import { useState } from "react";
+import Login from "./pages/login/Login";
+import CreateAccount from "./pages/login/CreateAccount";
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+
+  const [newUser, setNewUser] = useState(false);
 
   auth.onAuthStateChanged((fbu) => {
     if(fbu){
       getUser(fbu.uid).then((user) => {
+        setLoading(false);
         if(user.uid){
-          
+          dispatch(setUser(user));
+        }else{
+          setNewUser(true);
         }
       })
+    }else{
+      setLoading(false);
     }
   })
 
-  if(!isLoggedIn){return <button onClick={() => {handleAuthClick}}>Login</button>}
+  if(loading){return <div>Loading</div>}
+
+  if(newUser){return <CreateAccount/>}
+
+  if(!isLoggedIn){return <Login/>}
 
   return (
     <BrowserRouter>

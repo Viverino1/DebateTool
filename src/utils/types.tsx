@@ -2,7 +2,8 @@ type Evidence = {
   cardID: string,
   ownwerUID: string,
   teamID: string,
-  isPublic: boolean,
+  school: string,
+  visibility: string,
   createTime: number,
   lastEditTime: number,
   title: string,
@@ -24,12 +25,25 @@ type User = {
   teamID: string,
   email: string,
   photoURL: string,
-  userName: string,
   displayName: string,
+  firstName: string,
+  lastName: string,
+  school: string,
   speaker: number,
 }
 
+type School = {
+  district: string,
+  name: string,
+}
+
+type StaticData = {
+  schools: School[],
+}
+
 export type {
+  School,
+  StaticData,
   Evidence,
   Contention,
   User,
