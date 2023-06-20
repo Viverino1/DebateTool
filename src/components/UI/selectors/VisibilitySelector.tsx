@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { getValue } from "../../../utils/helpers";
 
 export default function VisibilitySelector(props: {callback: (value: string) => void, value: string}){
   const {callback, value} = props;
 
-  const [visibility, setVisibility] = useState("private");
+  const [visibility, setVisibility] = useState(value);
 
-  const options = ["public", "private"];
   return(
     <div className="flex space-x-4 h-fit w-fit">
       <button

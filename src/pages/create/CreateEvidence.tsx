@@ -7,16 +7,13 @@ import { emptyEvidence } from "../../utils/helpers";
 import TextArea from "../../components/UI/textInput/TextArea";
 import ContentionSubpointSelector from "../../components/UI/selectors/ContentionSubpointSelector";
 import VisibilitySelector from "../../components/UI/selectors/VisibilitySelector";
-import { Evidence, User } from "../../utils/types";
+import { Evidence } from "../../utils/types";
 import store from "../../utils/redux/store";
 import { saveEvidenceCard } from "../../utils/firebase/firestore/cards/evidence";
 
 export default function CreateEvidence(){
   const [data, setData] = useState(emptyEvidence);
   const {
-    cardID,
-    ownwerUID,
-    teamID,
     visibility,
     title,
     text,

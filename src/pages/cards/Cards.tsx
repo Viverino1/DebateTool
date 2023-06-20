@@ -11,16 +11,12 @@ export default function Cards(){
   const [evidenceIDs, setEvidenceIDs] = useState<string[]>([]);
 
   useEffect(() => {
+    console.log("hi");
     getCardIDs(user.school, topic, side)
     .then((ids) => {
       setEvidenceIDs(ids.evidences);
     })
-  })
-
-  const ids = [];
-  for (let i = 1; i <= 12; i++) {
-    ids[i] = i;
-  }
+  }, [])
 
   return(
     <div className="relative flex flex-col w-full h-full">
