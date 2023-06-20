@@ -64,18 +64,15 @@ export default function CreateEvidence(){
         </div>
       </div>
       <div className="w-1/3 h-full flex flex-col space-y-4 justify-center items-center p-2">
-        <div className="w-full h-1/2">
+        <div className="w-full h-1/2 -mb-2 -mr-4">
           <EvidenceCard data={data}/>
         </div>
-        <div className="flex items-center space-x-4">
-          <div>Visibility:</div>
-          <VisibilitySelector
-          callback={(value) => {
-            setData({...data, visibility: value});
-          }}
-          value={visibility}
-          />
-        </div>
+        <VisibilitySelector
+        callback={(value) => {
+          setData({...data, visibility: value});
+        }}
+        value={visibility}
+        />
         <div>
           <IndigoButton callback={() => {handleCardSave(data)}} text="Save Card"/>
         </div>

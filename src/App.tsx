@@ -30,7 +30,6 @@ export default function App() {
     store.dispatch(setSide("AFF"));
 
     return;
-
   }
 
   auth.onAuthStateChanged((fbu) => {
@@ -65,6 +64,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Landing/>}/>
           <Route path="/cards" element={<Cards/>}/>
+          <Route path="/cards/*" element={<div className="w-full h-full bg-red-500">Hi</div>}/>
           <Route path="/create">
             <Route index element={<Create/>}/>
             <Route path="evidence" element={<CreateEvidence/>}/>

@@ -20,9 +20,9 @@ export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
       }) 
     }else if(data){
       setDisplayData(data);
-      setLoading(false)
+      if(loading){setLoading(false)}
     }
-  }, []);
+  }, [data]);
   
   if(loading){return <Loading/>}
 
