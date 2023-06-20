@@ -1,6 +1,6 @@
-import { CollectionReference, DocumentData, collection, doc, getDoc, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "firebase/firestore";
+import { CollectionReference, DocumentData, collection, doc, getDoc, initializeFirestore, or, persistentLocalCache, persistentMultipleTabManager, query, where } from "firebase/firestore";
 import app from "../config";
-import { StaticData } from "../../types";
+import { StaticData, User } from "../../types";
 
 const db = initializeFirestore(app, {
   
@@ -21,13 +21,17 @@ async function getTopics(){
   return topics;
 }
 
-async function getCardIDs(school: string, topic: string, side: string){
-  const schoolDoc: any = (await getDoc(doc(db, "schools", school))).data();
-  const ids = schoolDoc.cards[topic][side]
+async function getCards(topic: string, side: string, user: User){ //return all cards that the user can possibly view.
+  const cardsRef = collection(db, "cards", topic, side);
 
-  const evidences = ids["evidences"];
+  const q = query(cardsRef, or(
+    where("ownerUID", "==", user.uid),
+    where("teamID", "==", user.teamID),
+    where("school", "==", user.school),
+  ));
 
-  return {evidences: evidences as string[]};
+  
+
 }
 
 export default db;
@@ -35,5 +39,5 @@ export {
   createCollection,
   getSchools,
   getTopics,
-  getCardIDs,
+  getCards,
 }

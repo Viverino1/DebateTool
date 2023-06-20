@@ -14,7 +14,7 @@ import { saveEvidenceCard } from "../../utils/firebase/firestore/cards/evidence"
 export default function CreateEvidence(){
   const [data, setData] = useState(emptyEvidence);
   const {
-    visibility,
+    isPublic,
     title,
     text,
     reasoning,
@@ -69,9 +69,9 @@ export default function CreateEvidence(){
         </div>
         <VisibilitySelector
         callback={(value) => {
-          setData({...data, visibility: value});
+          setData({...data, isPublic: value == "public"? true : false});
         }}
-        value={visibility}
+        value={isPublic? "public" : "private"}
         />
         <div>
           <IndigoButton callback={() => {handleCardSave(data)}} text="Save Card"/>

@@ -4,7 +4,7 @@ type Card = {
   ownwerUID: string,
   teamID: string,
   school: string,
-  visibility: string,
+  isPublic: boolean,
   createTime: number,
   lastEditTime: number,
   title: string,

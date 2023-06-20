@@ -41,4 +41,5 @@ export {
   getUser,
   createUser,
   editUser,
+  usersCol,
 }

@@ -18,7 +18,7 @@ const emptyCard: Card = {
   ownwerUID: "",
   teamID: "",
   school: "",
-  visibility: "private",
+  isPublic: false,
   createTime: 0,
   lastEditTime: 0,
   title: "",

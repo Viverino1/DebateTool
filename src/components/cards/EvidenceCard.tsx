@@ -1,40 +1,20 @@
 import { ArrowsAngleExpand, StarFill } from "react-bootstrap-icons";
 import Tooltip from "../UI/tooltip";
 import { Evidence } from "../../utils/types";
-import { getEvidenceCard } from "../../utils/firebase/firestore/cards/evidence";
 import { contsub, contsubTooltip } from "../../utils/helpers";
-import { useEffect, useState } from "react";
-import { useAppSelector } from "../../utils/redux/hooks";
 
-export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
-  const {ID, data} = props;
-  const [loading, setLoading] = useState(true);
-  const [displayData, setDisplayData] = useState({} as Evidence);
-  const {side, topic} = useAppSelector((state) => state.app);
-
-  useEffect(() => {
-    if(ID){
-      getEvidenceCard(topic, side, ID).then((result) => {
-        setDisplayData(result);
-        setLoading(false);
-      }) 
-    }else if(data){
-      setDisplayData(data);
-      if(loading){setLoading(false)}
-    }
-  }, [data]);
-  
-  if(loading){return <Loading/>}
+export default function EvidenceCard(props: {data: Evidence}){
+  const {data} = props;
 
   const {
-    visibility,
+    isPublic,
     title,
     text,
     sourceName,
     sourceLink,
     contention,
     subpoint,
-  } = displayData;
+  } = data;
 
   //console.log(cardID, ownwerUID, teamID, school, createTime, lastEditTime, reasoning);
 
@@ -54,7 +34,7 @@ export default function EvidenceCard(props: {ID?: string, data?: Evidence}){
               <div className="flex space-x-4 text-sm w-full">
                 <div className="w-fit h-fit bg-indigo-500 rounded-full px-2 py-1">Evidence</div>
                 <div className="relative group flex justify-center">
-                  <div className="w-fit h-fit bg-neutral-500 rounded-full px-2 py-1">{visibility}</div>
+                  <div className="w-fit h-fit bg-neutral-500 rounded-full px-2 py-1">{isPublic? "public" : "private"}</div>
                   <Tooltip text="Anyone can view this card."/>
                 </div>
                 <div className={`${contentionSubpoint == "NAN"? "hidden" : "flex"} relative group justify-center`}>
