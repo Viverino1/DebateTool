@@ -1,4 +1,4 @@
-import { Card, Evidence } from "./types";
+import { Card, Cards, Evidence } from "./types";
 
 function getValue(id: string, fallback: string){
   const inputElement = document.getElementById(id) as HTMLInputElement | null;
@@ -15,7 +15,7 @@ function getRadioValue(id: string){
 const emptyCard: Card = {
   type: "",
   cardID: "",
-  ownwerUID: "",
+  ownerUID: "",
   teamID: "",
   school: "",
   isPublic: false,

@@ -1,7 +1,7 @@
 type Card = {
   type: string,
   cardID: string,
-  ownwerUID: string,
+  ownerUID: string,
   teamID: string,
   school: string,
   isPublic: boolean,
@@ -24,6 +24,17 @@ type Quote = Card & {
   quotee: string,
   contention: string,
   subpoint: string,
+}
+
+type Rebuttal = Card & {
+  text: string,
+  rebuttalTo: string,
+}
+
+type Cards = {
+  evidences: Evidence[],
+  quotes: Quote[],
+  rebuttals: Rebuttal[],
 }
 
 type Contention = {
@@ -61,4 +72,6 @@ export type {
   User,
   Card,
   Quote,
+  Cards,
+  Rebuttal,
 };

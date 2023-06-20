@@ -1,6 +1,7 @@
-import { CollectionReference, DocumentData, collection, doc, getDoc, initializeFirestore, or, persistentLocalCache, persistentMultipleTabManager, query, where } from "firebase/firestore";
+import { CollectionReference, DocumentData, and, collection, doc, getDoc, getDocs, initializeFirestore, or, persistentLocalCache, persistentMultipleTabManager, query, where } from "firebase/firestore";
 import app from "../config";
-import { StaticData, User } from "../../types";
+import { Cards, Evidence, Quote, Rebuttal, StaticData, User } from "../../types";
+import store from "../../redux/store";
 
 const db = initializeFirestore(app, {
   
@@ -21,17 +22,33 @@ async function getTopics(){
   return topics;
 }
 
-async function getCards(topic: string, side: string, user: User){ //return all cards that the user can possibly view.
+async function getCards(topic: string, side: string){ //return all cards that the user can possibly view.
+  const user = {uid : "", teamID: "", school: ""} as User;
   const cardsRef = collection(db, "cards", topic, side);
 
   const q = query(cardsRef, or(
     where("ownerUID", "==", user.uid),
     where("teamID", "==", user.teamID),
-    where("school", "==", user.school),
+    and(
+      where("school", "==", user.school),
+      where("isPublic", "==", true),
+    ),
   ));
 
-  
+  const querySnapshot = await getDocs(q);
 
+  const evidences: Evidence[] = [];
+  const rebuttals: Rebuttal[] = [];
+  const quotes: Quote[] = [];
+
+  querySnapshot.forEach((doc) => {
+    const card = doc.data();
+    if(card.type == "evidence"){
+      evidences.push(card as Evidence);
+    }
+  })
+
+  return {evidences: evidences, rebuttals: rebuttals, quotes: quotes} as Cards;
 }
 
 export default db;

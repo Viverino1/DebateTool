@@ -90,7 +90,7 @@ function handleCardSave(data: Evidence){
   let time = new Date().getTime();
   data.createTime = time;
   data.lastEditTime = time;
-  data.ownwerUID = user.uid;
+  data.ownerUID = user.uid;
   data.school = user.school;
   data.teamID = user.teamID;
   console.log(topic, side);
