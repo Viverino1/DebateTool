@@ -12,28 +12,43 @@ import { useState, useEffect } from "react";
 import Login from "./pages/login/Login";
 import CreateAccount from "./pages/login/CreateAccount";
 import store from "./utils/redux/store";
-import { setCards, setSide, setTopic } from "./utils/redux/reducers/app";
+import { setSide, setTopic, setTopics } from "./utils/redux/reducers/app";
 import { getCards, getTopics } from "./utils/firebase/firestore/firestore";
 import Loading from "./components/Loading";
-import { Cards } from "./utils/types";
+import { setCards, setCardsLoading } from "./utils/redux/reducers/cards";
+import EvidenceCardExpanded from "./pages/cards/EvidenceCardExpanded";
+import CreateQuote from "./pages/create/CreateQuote";
+import QuoteCardExpanded from "./pages/cards/QuoteCardExpanded";
+import CreateRebuttal from "./pages/create/CreateRebuttal";
+import RebuttalCardExpanded from "./pages/cards/RebuttalCardExpanded";
+import Settings from "./pages/settings/Settings";
+import { getTeam } from "./utils/firebase/firestore/team";
+import { setTeam } from "./utils/redux/reducers/team";
+import TeamInvite from "./pages/teamInvite/TeamInvite";
 
 export default function App() {
   const dispatch = useDispatch();
 
-  const [loading, setLoading1] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 
   const [isNewUser, setIsNewUser] = useState(false);
 
-  const cards = useAppSelector((state) => state.app.cards);
+  const cards = useAppSelector((state) => state.cards.cards);
 
-  async function initialLoad(){
+  async function initialLoad(teamID: string){
     const topics = await getTopics();
 
-    store.dispatch(setTopic(topics[topics.length - 1]));
+    const t = topics[topics.length - 1];
+
+    const team = await getTeam(teamID, t, "AFF");
+
+    store.dispatch(setTopics(topics));
+    store.dispatch(setTopic(t));
     store.dispatch(setSide("AFF"));
-    
+    store.dispatch(setTeam(team));
+
     return;
   }
 
@@ -47,15 +62,16 @@ export default function App() {
           setIsNewUser(true);
         }
 
-        initialLoad().then(() => {
-          setLoading1(false);
-        })
-
+        if(loading){
+          initialLoad(user.teamID).then(() => {
+            setLoading(false);
+          })
+        }
       })
     }else{
-      setLoading1(false);
+      setLoading(false);
     }
-  })
+  });
 
   if(loading){return <div className="h-screen bg-neutral-900"><Loading/></div>}
 
@@ -65,15 +81,41 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <LoadData/>
       <div className="fixed flex w-full h-screen bg-neutral-900 text-neutral-100 font-quicksand">
         <Sidebar hideAt={[]}/>
         <Routes>
           <Route path="/" element={<Landing/>}/>
-          <Route path="/cards" element={<CardsPage cards={cards}/>}/>
-          <Route path="/cards/*" element={<div className="w-full h-full bg-red-500">Hi</div>}/>
+          <Route path="/settings" element={<Settings/>}/>
+          <Route path="/invite/*" element={<TeamInvite/>}/>
+          <Route path="/cards">
+            <Route index element={<CardsPage/>}/>
+            {cards.evidences.map((evidence) => (
+              <Route key={evidence.cardID} path={evidence.cardID} element={<EvidenceCardExpanded data={evidence}/>}/>
+            ))}
+            {cards.quotes.map((quote) => (
+              <Route key={quote.cardID} path={quote.cardID} element={<QuoteCardExpanded data={quote}/>}/>
+            ))}
+            {cards.rebuttals.map((rebuttal) => (
+              <Route key={rebuttal.cardID} path={rebuttal.cardID} element={<RebuttalCardExpanded data={rebuttal}/>}/>
+            ))}
+            <Route path="edit">
+              {cards.evidences.map((evidence) => (
+                <Route key={evidence.cardID} path={evidence.cardID} element={<CreateEvidence editCard={evidence}/>}/>
+              ))}
+              {cards.quotes.map((quote) => (
+                <Route key={quote.cardID} path={quote.cardID} element={<CreateQuote editCard={quote}/>}/>
+              ))}
+              {cards.rebuttals.map((rebuttal) => (
+                <Route key={rebuttal.cardID} path={rebuttal.cardID} element={<CreateRebuttal editCard={rebuttal}/>}/>
+              ))}
+            </Route>
+          </Route>
           <Route path="/create">
             <Route index element={<Create/>}/>
             <Route path="evidence" element={<CreateEvidence/>}/>
+            <Route path="quote" element={<CreateQuote/>}/>
+            <Route path="rebuttal" element={<CreateRebuttal/>}/>
           </Route>
         </Routes>
       </div>
@@ -81,11 +123,23 @@ export default function App() {
   )
 }
 
-function LoadCards(){
+function LoadData(){
+  const dispatch = useDispatch();
+
   const user = useAppSelector((state) => state.auth.user);
   const {side, topic} = useAppSelector((state) => state.app);
 
   useEffect(() => {
-    
-  })
+    dispatch(setCardsLoading(true))
+    getCards(topic, side, user).then((cards) => {
+      dispatch(setCards(cards));
+      dispatch(setCardsLoading(false));
+    })
+
+    getTeam(user.teamID, topic, side).then((team) => {
+      dispatch(setTeam(team));
+    })
+  }, [side, topic])
+
+  return null;
 }

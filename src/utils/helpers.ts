@@ -1,4 +1,4 @@
-import { Card, Cards, Evidence } from "./types";
+import { Card, Cards, Evidence, Quote, Rebuttal, Team } from "./types";
 
 function getValue(id: string, fallback: string){
   const inputElement = document.getElementById(id) as HTMLInputElement | null;
@@ -33,7 +33,35 @@ const emptyEvidence: Evidence = {
   type: "evidence",
   contention: -3,
   subpoint: -3,
-  school: "",
+}
+
+const emptyQuote: Quote = {
+  ...emptyCard,
+  type: "quote",
+  quote: "",
+  quotee: "",
+  contention: -3,
+  subpoint: -3,
+}
+
+const emptyRebuttal: Rebuttal = {
+  ...emptyCard,
+  type: "rebuttal",
+  text: "",
+  rebuttalTo: "",
+}
+
+const emptyCards: Cards = {
+  evidences: [],
+  rebuttals: [],
+  quotes: [],
+}
+
+const emptyTeam: Team = {
+  teamName: "",
+  teamID: "",
+  contentions: [],
+  rounds: [],
 }
 
 function contsub(c: number, s: number){
@@ -78,4 +106,8 @@ export{
   emptyEvidence,
   contsub,
   contsubTooltip,
+  emptyCards,
+  emptyQuote,
+  emptyRebuttal,
+  emptyTeam,
 }

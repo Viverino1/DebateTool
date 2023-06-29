@@ -1,4 +1,4 @@
-import {doc, getDoc, setDoc } from "firebase/firestore";
+import {doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import app from "./config";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { createCollection } from "./firestore/firestore";
@@ -34,6 +34,17 @@ async function editUser(user: User){
   await setDoc(doc(usersCol, user.uid), user, {merge: true});
 }
 
+async function getUsers(){
+  const userDocs = await getDocs(usersCol);
+  const users: User[] = [];
+
+  userDocs.forEach(doc => {
+    users.push(doc.data() as User);
+  });
+
+  return users;
+}
+
 export {
   handleAuthClick,
   handleSignOutClick,
@@ -42,4 +53,5 @@ export {
   createUser,
   editUser,
   usersCol,
+  getUsers,
 }

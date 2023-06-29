@@ -1,38 +1,37 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Cards } from "../../types";
 
 type AppState = {
+  topics: string[],
   topic: string,
   side: string,
-  cards: Cards,
 };
 
 const initialState = {
+  topics: [],
   topic: "",
   side: "",
-  cards: {evidences: [], rebuttals: [], quotes: []}
 } as AppState;
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setTopics: (state, action: PayloadAction<string[]>) => {
+      state.topics = action.payload;
+    },
     setTopic: (state, action: PayloadAction<string>) => {
       state.topic = action.payload;
     },
     setSide: (state, action: PayloadAction<string>) => {
       state.side = action.payload
     },
-    setCards: (state, action: PayloadAction<Cards>) => {
-      state.cards = action.payload;
-    }
   },
 });
 
 export const {
   setSide,
   setTopic,
-  setCards,
+  setTopics,
 } = appSlice.actions;
 
 export default appSlice;

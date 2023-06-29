@@ -6,8 +6,12 @@ export default function Login(){
   return(
     <div className="flex w-full h-screen text-neutral-300 font-quicksand">
       <div className="relative flex justify-center items-center w-3/4 h-full bg-neutral-800 p-4 overflow-clip">
-        <div className="absolute z-0 w-[50vh] h-[40vh] bg-red-500 rounded-full blur-3xl opacity-20"/>
-        <div className="absolute top-0 right-0 -translate-x-1/4 -translate-y-2/4 z-0 w-[50vh] h-[50vh] bg-indigo-500 rounded-full blur-3xl opacity-20"/>
+
+        <div className="absolute z-10 w-[50vh] h-[40vh] bg-red-500 rounded-full blur-3xl opacity-20"/>
+        <div className="absolute z-0 w-full h-[10vh] bg-indigo-500 blur-3xl opacity-20 rotate-12 "/>
+        <div className="absolute top-0 w-full h-[10vh] bg-amber-500 blur-3xl opacity-20 rotate-12 "/>
+        <div className="absolute bottom-0 w-full h-[10vh] bg-emerald-500 blur-3xl opacity-20 rotate-12 "/>
+
         <div className="absolute z-10 w-full h-full flex flex-col space-y-4 items-center justify-center">
           <div className="text-6xl text-red-500">Welcome to Debate Tool</div>
           <div className="text-2xl">From Vivek Maddineni</div>

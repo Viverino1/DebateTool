@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { getContentions } from "../../../utils/firebase/firestore/team"
-import { Contention } from "../../../utils/types"
 import { getValue } from "../../../utils/helpers";
+import { useAppSelector } from "../../../utils/redux/hooks";
 
 export default function ContentionSubpointSelector(props: {onChange: (contention: number, subpoint: number) => void, value: {contention: number, subpoint: number}}){
+  const contentions = useAppSelector((state) => state.team.contentions)
   const {onChange, value} = props;
-  
-  const contentions: Contention[] = getContentions();
 
   const [cont, setCont] = useState(value.contention);
   const [sub, setSub] = useState(value.subpoint);

@@ -1,10 +1,8 @@
 import { CollectionReference, DocumentData, and, collection, doc, getDoc, getDocs, initializeFirestore, or, persistentLocalCache, persistentMultipleTabManager, query, where } from "firebase/firestore";
 import app from "../config";
 import { Cards, Evidence, Quote, Rebuttal, StaticData, User } from "../../types";
-import store from "../../redux/store";
 
 const db = initializeFirestore(app, {
-  
   localCache: persistentLocalCache(/*settings*/{tabManager: persistentMultipleTabManager()})
 });
 
@@ -22,8 +20,7 @@ async function getTopics(){
   return topics;
 }
 
-async function getCards(topic: string, side: string){ //return all cards that the user can possibly view.
-  const user = {uid : "", teamID: "", school: ""} as User;
+async function getCards(topic: string, side: string, user: User){ //return all cards that the user can possibly view.
   const cardsRef = collection(db, "cards", topic, side);
 
   const q = query(cardsRef, or(
@@ -43,8 +40,17 @@ async function getCards(topic: string, side: string){ //return all cards that th
 
   querySnapshot.forEach((doc) => {
     const card = doc.data();
+
     if(card.type == "evidence"){
       evidences.push(card as Evidence);
+    }
+
+    if(card.type == "quote"){
+      quotes.push(card as Quote);
+    }
+
+    if(card.type == "rebuttal"){
+      rebuttals.push(card as Rebuttal);
     }
   })
 
