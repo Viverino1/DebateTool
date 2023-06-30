@@ -69,7 +69,7 @@ async function saveContentions(team: Team, topic: string){
 }
 
 async function joinTeam(teamID: string, user: User){
-  console.log(user.firstName + " joined team " + teamID);
+  const teamDoc = doc(db, "teams", teamID);
 }
 
 export {
