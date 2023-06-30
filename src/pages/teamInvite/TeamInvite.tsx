@@ -1,30 +1,53 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"
-import { getTeamName, joinTeam } from "../../utils/firebase/firestore/team";
+import { useLocation, useNavigate } from "react-router-dom"
+import { getInvite, getTeamName, joinTeam } from "../../utils/firebase/firestore/team";
 import Loading from "../../components/Loading";
 import RedButton from "../../components/UI/buttons/redButton";
 import { useAppSelector } from "../../utils/redux/hooks";
+import { Invite } from "../../utils/types";
 
 export default function TeamInvite(){
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
   const [teamName, setTeamName] = useState("");
   const [teamID, setTeamID] = useState("");
+  const [invite, setInvite] = useState<Invite>({invitedOn: 0, permission: ""});
   const user = useAppSelector((state) => state.auth.user);
   
   const location = useLocation();
 
   useEffect(() => {
-    let path = location.pathname.replace("/invite/", "");
+    let path = location.pathname.replace("/invite/", "").replace("/", "");
     const ID = path == location.pathname? "" : path;
+    
+
+    if(!ID){
+      setTeamID("");
+      setLoading(false);
+      return;
+    }
 
     getTeamName(ID).then((tn) => {
       setTeamName(tn);
       setTeamID(ID);
-      setLoading(false);
+      
+      if(!tn){
+        setLoading(false);
+        return;
+      }
+
+      getInvite(ID, user).then((invite) => {
+        setInvite(invite);
+        setLoading(false)
+      })
     });
-  }, [])
+  }, []);
 
   if(loading){return <Loading/>}
+
+  if(!teamID){navigate("/cards")}
+  if(!invite.permission){navigate("/cards")}
 
   return(
     <div className="relative w-full h-full">
@@ -43,8 +66,13 @@ export default function TeamInvite(){
               This is a Debate Tool team.
               Join it to collaborate in creating contentions, saving private cards, launching into realtime rounds, share cases, and much more.
             </div>
+            <div className="text-lg text-center">
+              You were invited to this team on
+              {" " + new Date(invite.invitedOn * 1000).toDateString()} at 
+              {" " + new Date(invite.invitedOn * 1000).toLocaleTimeString()} to be a {invite.permission}
+               </div>
             <RedButton
-            callback={() => {joinTeam(teamID, user)}}
+            callback={() => {joinTeam(teamID, user, invite).then()}}
             text="Join Team"
             />
           </div>

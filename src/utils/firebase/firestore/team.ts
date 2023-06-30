@@ -1,5 +1,5 @@
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { Contention, Team, User } from "../../types"
+import { collection, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import { Contention, Invite, Team, User } from "../../types"
 import db from "./firestore";
 import { usersCol } from "../auth";
 import store from "../../redux/store";
@@ -19,7 +19,7 @@ async function createTeam(teamName: string, ownerUID: string, memberUID: string)
   await setDoc(doc(teamRef, "invites", memberUID), {
     invitedOn: Math.floor(Date.now()/1000),
     permission: "member",
-  });
+  } as Invite);
 
   return teamDoc.id;
 }
@@ -54,7 +54,8 @@ async function getTeam(teamID: string, topic: string, side: string){
 
 async function getTeamName(teamID: string){
   const teamDoc = await getDoc(doc(db, "teams", teamID));
-  const teamData = await teamDoc.data();
+  const d = await teamDoc.data();
+  const teamData = d? d : undefined;
 
   return teamData? teamData.teamName as string : "" as string;
 }
@@ -68,8 +69,17 @@ async function saveContentions(team: Team, topic: string){
   await setDoc(doc(db, "teams", team.teamID, "contentions", topic), team.contentions, {merge: true});
 }
 
-async function joinTeam(teamID: string, user: User){
-  const teamDoc = doc(db, "teams", teamID);
+async function getInvite(teamID: string, user: User){
+  const inviteDoc = doc(db, "teams", teamID, "invites", user.uid);
+  const inviteData = (await getDoc(inviteDoc)).data() as Invite;
+  return inviteData? inviteData : {invitedOn: 0, permission: ""} as Invite;
+}
+
+async function joinTeam(teamID: string, user: User, invite: Invite){
+  const inviteDoc = doc(db, "teams", teamID, "invites", user.uid);
+  const memberDoc = doc(db, "teams", teamID, "members", user.uid);
+  await setDoc(memberDoc, {memberSince: Date.now() / 1000, permission: invite.permission});
+  await deleteDoc(inviteDoc);
 }
 
 export {
@@ -80,4 +90,5 @@ export {
   saveContentions,
   getTeamName,
   joinTeam,
+  getInvite,
 }

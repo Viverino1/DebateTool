@@ -25,6 +25,7 @@ import Settings from "./pages/settings/Settings";
 import { getTeam } from "./utils/firebase/firestore/team";
 import { setTeam } from "./utils/redux/reducers/team";
 import TeamInvite from "./pages/teamInvite/TeamInvite";
+import Rounds from "./pages/rounds/Rounds";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -87,6 +88,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Landing/>}/>
           <Route path="/settings" element={<Settings/>}/>
+          <Route path="/rounds" element={<Rounds/>}/>
           <Route path="/invite/*" element={<TeamInvite/>}/>
           <Route path="/cards">
             <Route index element={<CardsPage/>}/>

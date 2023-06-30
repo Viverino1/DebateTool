@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { CollectionFill, FileEarmarkPlusFill } from "react-bootstrap-icons";
+import { BootstrapReboot, CollectionFill, FileEarmarkPlusFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { useAppSelector } from "../../utils/redux/hooks";
@@ -30,6 +30,7 @@ export default function Sidebar(props: {hideAt: string[]}){
         <SidebarElement icon={<img className="w-12 h-12" src="/DebateToolLogo.svg"/>} text="Debate Tool" link="/"/>
         <SidebarElement icon={<CollectionFill size={30}/>} text="View Cards" link="/cards"/>
         <SidebarElement icon={<FileEarmarkPlusFill size={30}/>} text="Create Card" link="/create"/>
+        <SidebarElement icon={<BootstrapReboot size={30}/>} text="Rounds" link="/rounds"/>
       </div>
 
       <div className="flex flex-col space-y-4">

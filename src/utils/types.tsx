@@ -116,6 +116,11 @@ type Team = {
   rounds: Round[],
 }
 
+type Invite = {
+  invitedOn: number,
+  permission: string,
+}
+
 export type {
   School,
   StaticData,
@@ -128,4 +133,5 @@ export type {
   Rebuttal,
   Team,
   Round,
+  Invite,
 };
