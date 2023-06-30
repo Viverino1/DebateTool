@@ -1,4 +1,4 @@
-import { Card, Cards, Evidence, Quote, Rebuttal, Team } from "./types";
+import { Card, Cards, Evidence, OppSpeech, Quote, Rebuttal, Round, SelfSpeech, Team } from "./types";
 
 function getValue(id: string, fallback: string){
   const inputElement = document.getElementById(id) as HTMLInputElement | null;
@@ -64,6 +64,51 @@ const emptyTeam: Team = {
   rounds: [],
 }
 
+const emptySelfSpeech: SelfSpeech = {
+  start: 0,
+  end: 0,
+  speech: "",
+}
+
+const emptyOppSpeech: OppSpeech = {
+  start: 0,
+  end: 0,
+  notes: "",
+}
+
+const emptyRound: Round = {
+  title: "",
+  firstTeam: "",
+
+  self: {
+    teamCode: "",
+    school: "",
+    speeches: {
+      intro: emptySelfSpeech,
+      crossfire1: emptySelfSpeech,
+      rebuttal: emptySelfSpeech,
+      crossfire2: emptySelfSpeech,
+      summary: emptySelfSpeech,
+      grandCrossfire: emptySelfSpeech,
+      final: emptySelfSpeech,
+    },
+  },
+
+  opp: {
+    teamCode: "",
+    school: "",
+    speeches: {
+      intro: emptyOppSpeech,
+      crossfire1: emptyOppSpeech,
+      rebuttal: emptyOppSpeech,
+      crossfire2: emptyOppSpeech,
+      summary: emptyOppSpeech,
+      grandCrossfire: emptyOppSpeech,
+      final: emptyOppSpeech,
+    },
+  }
+}
+
 function contsub(c: number, s: number){
   var outputString = "";
   if(c >= 0){
@@ -110,4 +155,7 @@ export{
   emptyQuote,
   emptyRebuttal,
   emptyTeam,
+  emptyOppSpeech,
+  emptySelfSpeech,
+  emptyRound,
 }

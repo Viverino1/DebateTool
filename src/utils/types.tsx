@@ -78,7 +78,7 @@ type SelfSpeech = {
 
 type Round = {
   title: string,
-  firstSpeaker: "self" | "opp",
+  firstTeam: string,
 
   self: {
     teamCode: string,
@@ -92,7 +92,7 @@ type Round = {
       grandCrossfire: SelfSpeech,
       final: SelfSpeech
     }
-  }
+  },
 
   opp: {
     teamCode: string,
@@ -134,4 +134,6 @@ export type {
   Team,
   Round,
   Invite,
+  SelfSpeech,
+  OppSpeech,
 };

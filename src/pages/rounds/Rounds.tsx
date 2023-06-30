@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { Search } from "react-bootstrap-icons";
-import { getValue } from "../../utils/helpers";
-import Round from "../../components/Round";
+import { emptyRound, getValue } from "../../utils/helpers";
+import RoundCard from "../../components/Round";
+import { Round } from "../../utils/types";
+import { useAppSelector } from "../../utils/redux/hooks";
 
-const rounds = [1, 2, 3, 4, 5]
+const rounds = [1, 2, 3, 4, 5];
 
 export default function Rounds(){
+  const team = useAppSelector((state) => state.team);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const round: Round = emptyRound;
+
+  round.title = "This is the title.";
+  round.firstTeam = team.teamID;
 
   return(
     <div className="relative flex flex-col w-full h-full">
@@ -21,9 +29,9 @@ export default function Rounds(){
         </div>
       </div>
       <div className="flex flex-wrap p-2 pt-22 w-full h-full overflow-auto">
-        {rounds.map((round) => (
-          <div key={round} className="lg:w-1/2 w-full h-1/2">
-            <Round/>
+        {rounds.map((r) => (
+          <div key={r} className="lg:w-1/2 w-full h-1/2">
+            <RoundCard round={round} team={team}/>
           </div>
         ))}
       </div>
