@@ -1,5 +1,5 @@
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { Contention, Team } from "../../types"
+import { Contention, Team, User } from "../../types"
 import db from "./firestore";
 import { usersCol } from "../auth";
 import store from "../../redux/store";
@@ -52,6 +52,13 @@ async function getTeam(teamID: string, topic: string, side: string){
   return team;
 }
 
+async function getTeamName(teamID: string){
+  const teamDoc = await getDoc(doc(db, "teams", teamID));
+  const teamData = await teamDoc.data();
+
+  return teamData? teamData.teamName as string : "" as string;
+}
+
 async function saveTeamName(teamID: string, teamName: string){
   await setDoc(doc(db, "teams", teamID), {teamName: teamName});
   return;
@@ -61,10 +68,16 @@ async function saveContentions(team: Team, topic: string){
   await setDoc(doc(db, "teams", team.teamID, "contentions", topic), team.contentions, {merge: true});
 }
 
+async function joinTeam(teamID: string, user: User){
+  console.log(user.firstName + " joined team " + teamID);
+}
+
 export {
   getContentions,
   createTeam,
   getTeam,
   saveTeamName,
   saveContentions,
+  getTeamName,
+  joinTeam,
 }
