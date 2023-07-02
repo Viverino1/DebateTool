@@ -9,6 +9,6 @@ export default function TextInputMedium(props: {placeholder: string, onChange: (
     onChange={() => {onChange(getValue(placeholder, ""));}}
     type="text" 
     placeholder={placeholder}
-    className="text-md w-full h-12 rounded-xl bg-neutral-800 px-4 py-2 outline-none placeholder-neutral-400"/>
+    className="text-md w-full h-12 rounded-xl bg-neutral-800/50 border-2 border-neutral-700 px-4 py-2 outline-none placeholder-neutral-400"/>
   )
 }

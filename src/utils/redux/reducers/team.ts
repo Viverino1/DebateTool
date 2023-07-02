@@ -5,7 +5,7 @@ const initialState = {
   teamName: "",
   teamID: "",
   contentions: [],
-  rounds: [],
+  competitions: [],
 } as Team;
 
 export const teamSlice = createSlice({
@@ -16,11 +16,11 @@ export const teamSlice = createSlice({
       state.teamName = action.payload.teamName;
       state.teamID = action.payload.teamID;
       state.contentions = action.payload.contentions;
-      state.rounds = action.payload.rounds;
+      state.competitions = action.payload.competitions
     },
     setContentions: (state, action: PayloadAction<Contention[]>) => {
       state.contentions = action.payload;
-    }
+    },
   },
 });
 

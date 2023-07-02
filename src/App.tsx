@@ -25,7 +25,10 @@ import Settings from "./pages/settings/Settings";
 import { getTeam } from "./utils/firebase/firestore/team";
 import { setTeam } from "./utils/redux/reducers/team";
 import TeamInvite from "./pages/teamInvite/TeamInvite";
+import CompetitionDescription from "./components/rounds/CompetitionDescription";
+import Competitions from "./pages/rounds/Competitions";
 import Rounds from "./pages/rounds/Rounds";
+import RoundPage from "./components/rounds/RoundPage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -37,6 +40,8 @@ export default function App() {
   const [isNewUser, setIsNewUser] = useState(false);
 
   const cards = useAppSelector((state) => state.cards.cards);
+  
+  const team = useAppSelector((state) => state.team);
 
   async function initialLoad(teamID: string){
     const topics = await getTopics();
@@ -88,7 +93,17 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Landing/>}/>
           <Route path="/settings" element={<Settings/>}/>
-          <Route path="/rounds" element={<Rounds/>}/>
+          <Route path="/rounds">
+            <Route index element={<Competitions/>}/>
+            {team.competitions.map((comp) => (
+              <Route key={comp.name} path={comp.name}>
+                <Route index element={<Rounds rounds={comp.rounds}/>}/>
+                {comp.rounds.map((roundID) => (
+                  <Route key={roundID} path={roundID} element={<RoundPage roundID={roundID}/>}/>
+                ))}
+              </Route>
+            ))}
+          </Route>
           <Route path="/invite/*" element={<TeamInvite/>}/>
           <Route path="/cards">
             <Route index element={<CardsPage/>}/>
@@ -130,18 +145,23 @@ function LoadData(){
 
   const user = useAppSelector((state) => state.auth.user);
   const {side, topic} = useAppSelector((state) => state.app);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(setCardsLoading(true))
-    getCards(topic, side, user).then((cards) => {
+    const load = async () => {
+      console.log("loading");
+      const cards = await getCards(topic, side, user);
       dispatch(setCards(cards));
       dispatch(setCardsLoading(false));
-    })
 
-    getTeam(user.teamID, topic, side).then((team) => {
+      const team = await getTeam(user.teamID, topic, side);
       dispatch(setTeam(team));
-    })
-  }, [side, topic])
 
-  return null;
+      setLoading(false);
+    }
+    setLoading(true);
+    load();
+  }, [side, topic]);
+
+  return loading? <div className="h-screen bg-neutral-900"><Loading/></div> : null;
 }

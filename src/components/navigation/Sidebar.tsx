@@ -38,7 +38,7 @@ export default function Sidebar(props: {hideAt: string[]}){
           <TopicSelector/>
         </div>
 
-        <div className="flex w-full h-12">
+        <div className={`flex w-full overflow-clip transition-all duration-300 ${location.includes("rounds")? "h-0" : "h-12"}`}>
           <SideSelector/>
         </div>
 

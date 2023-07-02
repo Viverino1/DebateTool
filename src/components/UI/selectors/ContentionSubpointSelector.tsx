@@ -23,7 +23,7 @@ export default function ContentionSubpointSelector(props: {onChange: (contention
       }}
       id="contentionSelector"
       value={value.contention}
-      className="w-1/2 h-full outline-none appearance-none rounded-xl bg-neutral-800 px-4 py-2">
+      className="w-1/2 h-full outline-none appearance-none rounded-xl bg-neutral-800/50 border-2 border-neutral-700 px-4 py-2">
         <option value={-3}>No Contention</option>
         <option value={-2}>Intro</option>
         <option value={-1}>Conclusion</option>
@@ -38,7 +38,7 @@ export default function ContentionSubpointSelector(props: {onChange: (contention
       }}
       id="subpointSelector"
       value={value.subpoint}
-      className="w-1/2 h-full outline-none appearance-none rounded-xl bg-neutral-800 px-4 py-2">
+      className="w-1/2 h-full outline-none appearance-none rounded-xl bg-neutral-800/50 border-2 border-neutral-700 px-4 py-2">
         <option value={-3}>No Subpoint</option>
         {cont >= 0? contentions[cont].subpoints.map((subpoint, index) => (
           <option key={index} value={index}>{subpoint}</option>

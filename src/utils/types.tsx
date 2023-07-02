@@ -77,12 +77,16 @@ type SelfSpeech = {
 }
 
 type Round = {
+  roundID: string,
+
   title: string,
-  firstTeam: string,
+  teamNumber: number,
+  competition: string,
+  side: string,
 
   self: {
     teamCode: string,
-    school: string,
+
     speeches: {
       intro: SelfSpeech,
       crossfire1: SelfSpeech,
@@ -97,6 +101,9 @@ type Round = {
   opp: {
     teamCode: string,
     school: string,
+    speaker1: string,
+    speaker2: string,
+
     speeches: {
       intro: OppSpeech,
       crossfire1: OppSpeech,
@@ -109,11 +116,18 @@ type Round = {
   }
 }
 
+type Competition = {
+  name: string,
+  location: string,
+  address: string,
+  rounds: string[],
+}
+
 type Team = {
   teamName: string,
   teamID: string,
   contentions: Contention[],
-  rounds: Round[],
+  competitions: Competition[],
 }
 
 type Invite = {
@@ -136,4 +150,5 @@ export type {
   Invite,
   SelfSpeech,
   OppSpeech,
+  Competition,
 };

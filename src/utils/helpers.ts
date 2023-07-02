@@ -1,4 +1,4 @@
-import { Card, Cards, Evidence, OppSpeech, Quote, Rebuttal, Round, SelfSpeech, Team } from "./types";
+import { Card, Cards, Competition, Evidence, OppSpeech, Quote, Rebuttal, Round, SelfSpeech, Team } from "./types";
 
 function getValue(id: string, fallback: string){
   const inputElement = document.getElementById(id) as HTMLInputElement | null;
@@ -61,7 +61,7 @@ const emptyTeam: Team = {
   teamName: "",
   teamID: "",
   contentions: [],
-  rounds: [],
+  competitions: [],
 }
 
 const emptySelfSpeech: SelfSpeech = {
@@ -76,13 +76,24 @@ const emptyOppSpeech: OppSpeech = {
   notes: "",
 }
 
+const emptyCompetition: Competition = {
+  name: "",
+  location: "",
+  address: "",
+  rounds: []
+}
+
 const emptyRound: Round = {
+  roundID: "",
+
   title: "",
-  firstTeam: "",
+  teamNumber: 0,
+  competition: "",
+  side: "",
 
   self: {
     teamCode: "",
-    school: "",
+
     speeches: {
       intro: emptySelfSpeech,
       crossfire1: emptySelfSpeech,
@@ -97,6 +108,9 @@ const emptyRound: Round = {
   opp: {
     teamCode: "",
     school: "",
+    speaker1: "",
+    speaker2: "",
+
     speeches: {
       intro: emptyOppSpeech,
       crossfire1: emptyOppSpeech,
@@ -158,4 +172,5 @@ export{
   emptyOppSpeech,
   emptySelfSpeech,
   emptyRound,
+  emptyCompetition,
 }

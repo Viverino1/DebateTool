@@ -1,5 +1,5 @@
-import { collection, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
-import { Contention, Invite, Team, User } from "../../types"
+import { arrayUnion, collection, deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { Competition, Contention, Invite, Team, User } from "../../types"
 import db from "./firestore";
 import { usersCol } from "../auth";
 import store from "../../redux/store";
@@ -35,17 +35,18 @@ async function getContentions(teamID: string, topic: string, side: string){
 
 async function getTeam(teamID: string, topic: string, side: string){
   const team = JSON.parse(JSON.stringify(store.getState().team));
-  if(team.teamID){return team}
   if(!teamID){return team}
   const teamDoc = await getDoc(doc(db, "teams", teamID));
   const teamData = await teamDoc.data();
 
   const contentions = await getContentions(teamID, topic, side);
 
+  console.log(teamData);
+
   if(teamData){
     team.teamID = teamDoc.id;
     team.teamName = teamData.teamName;
-    team.rounds = [];
+    team.competitions = (teamData.competitions[topic]? teamData.competitions[topic] : []);
     team.contentions = contentions;
   }
 
@@ -80,6 +81,14 @@ async function joinTeam(teamID: string, user: User, invite: Invite){
   const memberDoc = doc(db, "teams", teamID, "members", user.uid);
   await setDoc(memberDoc, {memberSince: Date.now() / 1000, permission: invite.permission});
   await deleteDoc(inviteDoc);
+}
+
+async function newCompetition(team: Team, competition: Competition){
+  const teamDoc = doc(db, "teams", team.teamID);
+
+  await updateDoc(teamDoc, {
+    [`competitions.`]: arrayUnion()
+  })
 }
 
 export {
