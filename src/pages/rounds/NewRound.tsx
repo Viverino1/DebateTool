@@ -7,6 +7,7 @@ import { useAppSelector } from "../../utils/redux/hooks";
 import SpeakerSelector from "../../components/UI/selectors/SpeakerSelector";
 import { Competition, Round } from "../../utils/types";
 import SideSelector from "../../components/UI/selectors/SideSelector";
+import { addRound } from "../../utils/firebase/firestore/team";
 
 export default function NewRound(props: {close: () => void, competition: Competition}){
   const [round, setRound] = useState(emptyRound);
@@ -94,9 +95,10 @@ export default function NewRound(props: {close: () => void, competition: Competi
         const newRound = JSON.parse(JSON.stringify(round)) as Round;
         newRound.competition = props.competition.name;
         newRound.side = side;
-        console.log(newRound);
 
-        props.close();
+        addRound(team.teamID, topic, round).then(() => {
+          props.close();
+        });
       }}
       text="Add Round"
       />

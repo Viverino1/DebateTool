@@ -77,8 +77,8 @@ export default function Competitions(){
         backdrop-blur-sm border-2 border-neutral-700 bg-neutral-800/50">
           <Search size={30}/>
           <input type="text" id="search" className="w-full h-full bg-transparent outline-none text-lg" placeholder="Search competitions"
-          onChange={() => {
-            setSearchQuery(getValue("search", ""));
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
           }}/>
         </div>
       </div>

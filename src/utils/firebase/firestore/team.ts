@@ -91,6 +91,17 @@ async function newCompetition(team: Team, competition: Competition, topic: strin
   })
 }
 
+async function addRound(teamID: string, topic: string, round: Round){
+  const roundRef = doc(collection(db, "teams", teamID, "rounds"));
+  round.roundID = roundRef.id;
+
+  await setDoc(roundRef, round);
+  await updateDoc(doc(db, "teams", teamID), {
+    []
+  })
+  console.log(round);
+
+}
 
 async function getRound(teamID: string, roundID: string){
   return (await getDoc(doc(db, "teams", teamID, "rounds", roundID))).data() as Round;
@@ -107,4 +118,5 @@ export {
   getInvite,
   newCompetition,
   getRound,
+  addRound,
 }
