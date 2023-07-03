@@ -3,19 +3,18 @@ import { getValue } from "../../../utils/helpers";
 import { useAppSelector } from "../../../utils/redux/hooks";
 import { setSide } from "../../../utils/redux/reducers/app";
 
-export default function SideSelector(){
+export default function SideSelector(props: {id?: string}){
   const dispatch = useDispatch();
 
   const side = useAppSelector((state) => state.app.side);
 
   return(
     <select
-    id="sideSelector"
-    className="w-full px-2 py-1 h-full bg-inherit border-2 border-transparent transition-all duration-300
-     rounded-xl appearance-none outline-none text-center group-hover:hover:border-red-500 group-hover:border-neutral-500/50"
+    id={`sideSelector${props.id}`}
+    className={"w-full px-2 py-1 h-full bg-inherit border-2  transition-all duration-300 rounded-xl appearance-none outline-none text-center border-neutral-700 bg-neutral-800 hover:border-red-500"}
     value={side}
     onChange={() => {
-      dispatch(setSide(getValue("sideSelector", "")));
+      dispatch(setSide(getValue(`sideSelector${props.id}`, "")));
     }}
     >
       <option value="AFF">AFF</option>

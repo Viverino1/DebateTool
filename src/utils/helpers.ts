@@ -80,7 +80,7 @@ const emptyCompetition: Competition = {
   name: "",
   location: "",
   address: "",
-  rounds: []
+  roundIDs: []
 }
 
 const emptyRound: Round = {

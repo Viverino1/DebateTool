@@ -12,8 +12,7 @@ export default function TopicSelector(){
   return(
     <select
     id="topicSelector"
-    className="w-full px-2 py-1 h-full bg-inherit border-2 border-transparent transition-all duration-300
-     rounded-xl appearance-none outline-none text-center group-hover:hover:border-red-500 group-hover:border-neutral-500/50"
+    className="w-full px-2 py-1 h-full bg-inherit border-2 transition-all duration-300 rounded-xl appearance-none outline-none text-center border-neutral-700 bg-neutral-800 hover:border-red-500"
     value={topic}
     onChange={() => {
       dispatch(setTopic(getValue("topicSelector", "")));

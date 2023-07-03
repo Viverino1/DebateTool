@@ -3,7 +3,7 @@ import { PlusCircleFill, Search } from "react-bootstrap-icons";
 import { getValue } from "../../utils/helpers";
 import { OppSpeech, Round, SelfSpeech } from "../../utils/types";
 import { useAppSelector } from "../../utils/redux/hooks";
-import CompetitionDescription from "../../components/rounds/CompetitionDescription";
+import CompetitionDescription from "./CompetitionDescription";
 import NewCompetition from "./NewCompetition";
 
 export default function Competitions(){
@@ -70,32 +70,33 @@ export default function Competitions(){
     <div className={`absolute z-30 w-full ${showNewComp? "h-full opacity-100" : "h-0 opacity-0"} transition-all duration-300 overflow-clip bg-neutral-800/50 backdrop-blur-md flex justify-center items-center`}>
       <NewCompetition close={() => {setShowNewComp(!showNewComp)}}/>
     </div>
-    <div className="relative flex flex-col w-full h-full">
+
+    <div className="relative w-full h-full">
       <div className="absolute top-4 z-20 right-4 left-4">
         <div className="text-center w-full h-16 px-4 rounded-xl flex space-x-4 items-center
         backdrop-blur-sm border-2 border-neutral-700 bg-neutral-800/50">
           <Search size={30}/>
-          <input type="text" id="search" className="w-full h-full bg-transparent outline-none text-lg" placeholder="Search"
+          <input type="text" id="search" className="w-full h-full bg-transparent outline-none text-lg" placeholder="Search competitions"
           onChange={() => {
             setSearchQuery(getValue("search", ""));
           }}/>
         </div>
       </div>
-      <div className="flex flex-wrap p-2 pt-22 w-full h-full overflow-auto">
+      <div className="h-full p-2 pt-22 overflow-auto">
         {competitions.map((comp, index) => (
-          <div key={index} className="w-1/2 h-1/4">
+          <div key={index} className="w-full h-1/4">
             <CompetitionDescription competition={comp}/>
           </div>
         ))}
 
-        <div className="w-1/2 h-1/4 p-2">
+        <div className="w-full h-1/4 p-2">
           <button className="w-full h-full bg-neutral-800/50 border-2 border-neutral-700 rounded-xl p-2 flex flex-col space-y-2 justify-center items-center text-neutral-300"
           onClick={() => {setShowNewComp(!showNewComp)}}>
               <div className="flex justify-center items-center space-x-2">
                 <PlusCircleFill size={30}/>
                 <div className="text-2xl">Add Competition</div>
               </div>
-              <div>Add competition to organize your rounds by competition.</div>
+              <div className="text-md">Add competition to organize your rounds by competition.</div>
           </button>
         </div>
       </div>

@@ -25,10 +25,9 @@ import Settings from "./pages/settings/Settings";
 import { getTeam } from "./utils/firebase/firestore/team";
 import { setTeam } from "./utils/redux/reducers/team";
 import TeamInvite from "./pages/teamInvite/TeamInvite";
-import CompetitionDescription from "./components/rounds/CompetitionDescription";
 import Competitions from "./pages/rounds/Competitions";
 import Rounds from "./pages/rounds/Rounds";
-import RoundPage from "./components/rounds/RoundPage";
+import RoundPage from "./pages/rounds/RoundPage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -97,8 +96,8 @@ export default function App() {
             <Route index element={<Competitions/>}/>
             {team.competitions.map((comp) => (
               <Route key={comp.name} path={comp.name}>
-                <Route index element={<Rounds rounds={comp.rounds}/>}/>
-                {comp.rounds.map((roundID) => (
+                <Route index element={<Rounds competition={comp}/>}/>
+                {comp.roundIDs.map((roundID) => (
                   <Route key={roundID} path={roundID} element={<RoundPage roundID={roundID}/>}/>
                 ))}
               </Route>

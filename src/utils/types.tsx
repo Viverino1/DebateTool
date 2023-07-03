@@ -120,7 +120,7 @@ type Competition = {
   name: string,
   location: string,
   address: string,
-  rounds: string[],
+  roundIDs: string[],
 }
 
 type Team = {

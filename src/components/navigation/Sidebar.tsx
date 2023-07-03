@@ -68,7 +68,7 @@ function SidebarElement(props: {icon: ReactElement, text: string, link: string})
       transition-all duration-300`}/>
 
       <button className={`relative z-10 w-full h-full text-neutral-100 overflow-clip rounded-xl ${isSelected()? "bg-red-500" : "bg-transparent"}
-      border-2 border-transparent ${isSelected()? "" : "group-hover:border-neutral-500/50"} group-hover:hover:border-red-500 transition-all duration-300`}
+      border-2 border-transparent ${isSelected()? "" : "group-hover:border-neutral-700"} group-hover:hover:border-red-500 transition-all duration-300`}
       onClick={() => {navigate(link)}}>
         <div className="flex items-center space-x-2 w-72">
           <div className="w-16 h-16 flex justify-center items-center">{icon}</div>

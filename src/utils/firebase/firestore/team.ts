@@ -1,5 +1,5 @@
 import { arrayUnion, collection, deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { Competition, Contention, Invite, Team, User } from "../../types"
+import { Competition, Contention, Invite, Round, Team, User } from "../../types"
 import db from "./firestore";
 import { usersCol } from "../auth";
 import store from "../../redux/store";
@@ -83,12 +83,17 @@ async function joinTeam(teamID: string, user: User, invite: Invite){
   await deleteDoc(inviteDoc);
 }
 
-async function newCompetition(team: Team, competition: Competition){
+async function newCompetition(team: Team, competition: Competition, topic: string){
   const teamDoc = doc(db, "teams", team.teamID);
 
   await updateDoc(teamDoc, {
-    [`competitions.`]: arrayUnion()
+    [`competitions.${topic}`]: arrayUnion(competition)
   })
+}
+
+
+async function getRound(teamID: string, roundID: string){
+  return (await getDoc(doc(db, "teams", teamID, "rounds", roundID))).data() as Round;
 }
 
 export {
@@ -100,4 +105,6 @@ export {
   getTeamName,
   joinTeam,
   getInvite,
+  newCompetition,
+  getRound,
 }

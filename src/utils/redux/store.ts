@@ -3,6 +3,7 @@ import authSlice from './reducers/auth'
 import appSlice from './reducers/app';
 import cardsSlice from './reducers/cards';
 import teamSlice from './reducers/team';
+import roundsSlice from './reducers/rounds';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     [appSlice.name] : appSlice.reducer,
     [cardsSlice.name] : cardsSlice.reducer,
     [teamSlice.name] : teamSlice.reducer,
+    [roundsSlice.name] : roundsSlice.reducer,
   },
 })
 

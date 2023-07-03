@@ -13,8 +13,8 @@ export default function CompetitionDescription(props: {competition: Competition}
         navigate(name);
       }}>
         <div className="text-2xl text-red-500">{name}</div>
-        <div className="text-lg">Location: {location}</div>
-        <div className="text-lg">Address: {address}</div>
+        <div className="text-md">Location: {location}</div>
+        <div className="text-md">Address: {address}</div>
       </button>
     </div>
   )
