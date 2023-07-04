@@ -41,14 +41,14 @@ async function getTeam(teamID: string, topic: string, side: string){
 
   const contentions = await getContentions(teamID, topic, side);
 
-  console.log(teamData);
-
   if(teamData){
     team.teamID = teamDoc.id;
     team.teamName = teamData.teamName;
     team.competitions = (teamData.competitions[topic]? teamData.competitions[topic] : []);
     team.contentions = contentions;
   }
+
+  console.log(team.competitions);
 
   return team;
 }
@@ -92,15 +92,14 @@ async function newCompetition(team: Team, competition: Competition, topic: strin
 }
 
 async function addRound(teamID: string, topic: string, round: Round){
+  const competitions = store.getState().team.competitions;
+  const competitionIndex = competitions.findIndex((e) => e.name == round.competition);
+
   const roundRef = doc(collection(db, "teams", teamID, "rounds"));
   round.roundID = roundRef.id;
 
   await setDoc(roundRef, round);
-  await updateDoc(doc(db, "teams", teamID), {
-    []
-  })
-  console.log(round);
-
+  
 }
 
 async function getRound(teamID: string, roundID: string){

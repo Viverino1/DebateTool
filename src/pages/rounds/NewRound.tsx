@@ -96,7 +96,7 @@ export default function NewRound(props: {close: () => void, competition: Competi
         newRound.competition = props.competition.name;
         newRound.side = side;
 
-        addRound(team.teamID, topic, round).then(() => {
+        addRound(team.teamID, topic, newRound).then(() => {
           props.close();
         });
       }}
